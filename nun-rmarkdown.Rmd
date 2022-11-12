@@ -1,0 +1,457 @@
+---
+title: "NUN - Introduction to Data Science Using R"
+author: "Bilikisu Olatunji, Data Scientist, Abuja R User Group"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Brief introduction to R
+
+## Importance of R
+
+  - Open source
+  - Robust visualization
+  - Best and easy language for Statistical Analysis and Data Science
+  - Vast Community support
+  - Large ecosystems of packages
+  
+## Installing R and RStudio  
+
+
+## Codes and Comments
+
+```{r}
+2+3
+```
+
+## Data Types 
+  - Numeric
+  - Integer
+  - Logical
+  - Character
+  - Complex, Raw
+
+```{r}
+2+3
+
+1
+2.3
+1L
+
+# numeric
+class(2.3)
+
+# integer
+class(1L)
+# character
+class("1")
+class('34')
+"23"+2
+
+# convert a number to integer using as.integer()
+as.integer(1)
+class(as.integer(1))
+class(1)
+```
+
+
+## Variables
+
+```{r}
+my_integer = 102L
+# change the value
+my_integer <- 107L
+```
+
+
+## Operators in R
+
+  - Arithmetric
+  - Assignment
+  - Logical
+  - Relational
+  
+```{r}
+2+3
+
+2*3
+
+3/2
+
+5^2
+```
+
+## Loops in R
+  - for
+  
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+
+```
+
+  - while
+  
+```{r}
+i <- 0
+while (i <= 4) {
+  i <- i + 1
+  print(i)
+}
+```
+
+
+## Data Structures in R
+
+  1. Vectors
+```{r}
+c()
+
+#Assign results to numeric_vec
+numeric_vec <- c(2, 43, 4.1, 3.5, 10)
+
+# Check the type and contents of numeric_vec
+# We see that it is numeric (num)
+str(numeric_vec)
+
+# length
+length(numeric_vec)
+```
+
+  2. Data frame
+```{r}
+# Let's create a simple data frame with the data.frame function
+student_data <- data.frame(student_id = c(100234, 132454, 453123),
+                      hw_score = c(82, 93, 87),
+                      exam_score = c(92, 89, 98),
+                      department = c("Statistics", "Physics", "Economics"))
+# View the data
+student_data
+```
+  
+  3. List
+```{r}
+my_list <- list(char_vector = c('A', 'B', "Z"),
+                numeric_vector = c(5.2, 13.4, 5, 2.01),
+                student_data = data.frame(student_id = c(100234, 132454, 453123),
+                      hw_score = c(82, 93, 87),
+                      exam_score = c(92, 89, 98),
+                      department = c("Statistics", "Physics", "Economics")),
+                a_list = list(c(1L, 4L), c('A', 'D', 'E')))
+# View contents
+my_list
+```
+  
+
+## Functions
+
+### Base or built-in functions
+
+```{r}
+#c()
+
+data_vector <- c(1, 3, 3, 9, 11.2, 14, 28.7, 30, 15, 5, 5, 5, 2.7, 21, 5.7, 9.1, 24.6)
+
+sum(data_vector)
+# 
+mean(data_vector)
+
+# 
+median(data_vector)
+# 
+# min()
+# 
+# max()
+```
+
+### Custom functions
+```{r}
+# Define your custom functions
+# function without an argument
+
+myFunc <- function(){
+  2+3
+}
+
+myFunc()
+
+sayHello <- function(){
+  print("Hello! This is my first function!")
+}
+
+sayHello()
+
+# function with a single argument
+multiplyByTwo <- function(x) {
+  x*2
+  #return(x * 2)
+}
+
+v1 <- c(1, 4, 7)
+
+multiplyByTwo(x = v1)
+
+multiplyByTwo(v1)
+```
+
+## Packages in R
+
+
+
+### Installing packages
+
+```{r}
+# install.packages()
+
+#install.packages("tidyverse")
+```
+
+### Accessing and using R packages
+
+```{r}
+#library()
+library(tidyverse)
+
+help("select")
+```
+
+
+## Importing Data in R
+
+```{r}
+
+# comma separated values, .csv
+# from the base utils functions
+employee_data_csv <- read.csv(file = "data/employee_data.cvs")
+
+# from readr package within tidyverse package
+employee_data_csv <- read_csv(file = "data/employee_data.cvs")
+
+# from readr package within tidyverse package
+employee_data <- read_rds('data/employee_data.rds')
+
+# View data
+employee_data
+```
+
+
+### Subsetting data
+
+```{r}
+# return first 10 rows with all columns
+employee_data[1:10, ]
+
+#employee_data[rows, columns]
+employee_data[1:4, c(1:3)]
+
+```
+
+
+## Manipulating data
+
+### using dplyr 
+  1. Selecting variables(column)
+```{r}
+select(employee_data, 1:5)
+
+head(employee_data, 10)
+```
+
+```{r}
+select(employee_data, 1,3,5)
+```
+
+
+```{r}
+select(employee_data, left_company, job_level)
+```
+
+Excluding variables
+
+```{r}
+select(employee_data, -left_company, -job_level)
+```
+  
+  
+```{r}
+select(employee_data, -c(1:10))
+```
+  
+```{r}
+
+```
+  
+  2. Filtering data
+```{r}
+# employees that left the company
+filter(employee_data, left_company == 'Yes') 
+```
+
+
+```{r}
+# View employees that left from the Sales department
+filter(employee_data, left_company == 'Yes', department == 'Sales') 
+```
+
+
+```{r}
+# employees from Sales or Marketing department
+filter(employee_data, department == 'Sales' | department == 'Marketing')
+```
+
+  3. Mutate
+  
+```{r}
+# Create salary_scaled variable
+# assuming salary is annual
+mutate(employee_data, weekly_salary = salary/52)
+
+mutate(employee_data, weekly_salary = salary/52)
+```
+  
+  4. Summarize data
+```{r}
+# Let's get the average salary
+summarise(employee_data, average_salary = mean(salary))
+```
+  
+
+## Visualization data
+### ggplot2 packages
+
+```{r}
+library(tidyverse)
+
+heart_df <- read_rds('data/heart_disease.rds')
+```
+
+
+```{r}
+# ggplot(data = [DATA], mapping = aes([MAPPING]) +
+#          [GEOM_FUNCTION]() +
+#          [FACET_FUNCTION]() +
+#          [COORDINATE_FUNCTION]() +
+#          labs(title = [TITLE],
+#               x = [X AXIS LABEL],
+#               y = [Y AXIS LABEL])
+```
+
+
+### Scatter plot
+
+```{r}
+ggplot2::ggplot(data = heart_df,mapping = aes(x = age,y = cholesterol))+
+  geom_point()
+
+?ggplot
+```
+
+
+```{r}
+ggplot(data = heart_df, 
+       mapping = aes(x = age, y = cholesterol)) +
+       geom_point()
+```
+
+  - adding more variables
+  
+```{r}
+ggplot(data = heart_df, mapping = aes(x = age, y = cholesterol, color = heart_disease)) +
+       geom_point()
+```
+
+  - faceting
+  
+```{r}
+ggplot(data = heart_df, mapping = aes(x = age, y = cholesterol, color = heart_disease)) +
+      geom_point() +
+      facet_wrap(~ heart_disease, nrow = 1)
+```
+
+
+### Bar chart
+```{r}
+ggplot(data = heart_df, mapping = aes(x = heart_disease, fill = heart_disease)) +
+       geom_bar(stat = "count") + 
+       labs(title = "Heart Disease Prevalence", x = "Heart Disease Status",
+            y = "Number of Patients")
+```
+
+### Histogram
+```{r}
+ggplot(data = heart_df, mapping = aes(x = resting_blood_pressure, fill = heart_disease)) +
+       geom_histogram(color = "white", bins = 15) + 
+       facet_wrap( ~ heart_disease, nrow = 1) +
+       labs(title = "Distribution of Resting Blood Pressure",
+            x = "Resting Blood Pressure",
+            y = "Number of Patients")
+```
+
+
+## Statistical Analysis
+
+  - Descriptive
+  - Predictive
+  - Prescriptive
+  
+## Data Science
+
+### Linear regression - supervised learning
+
+```{r}
+
+diamonds_df <- diamonds
+
+diamonds.lm <- lm()
+diamonds.lm <- lm(formula = price ~ carat + cut + depth + clarity + color,
+                  data = diamonds_df)
+
+# Print summary statistics from diamond model
+summary(diamonds.lm)
+
+# Which components are in the regression object?
+names(diamonds.lm)
+
+# The coefficients in the diamond model
+diamonds.lm$coefficients
+
+# Coefficient statistics in the diamond model
+summary(diamonds.lm)$coefficients
+
+# Plot the relationship between true diamond values
+#   and linear model fitted values
+
+plot(x = diamonds$price,                          # True values on x-axis
+     y = diamonds.lm$fitted.values,               # fitted values on y-axis
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of diamond values")
+
+abline(b = 1, a = 0)                             # Values should fall around this line!
+
+# Create a dataframe of new diamond data
+# carat + cut + depth + clarity + color
+diamonds.new <- data.frame(carat = c(0.23, 0.36, 0.24),
+                           cut = c("Very Good", "Very Good", "Ideal"),
+                           depth = c(61.9, 55.7, 63.2),
+                           clarity = c("SI2", "VS1", "I1"),
+                           color = c("J", "E", "F"))
+
+# Predict the value of the new diamonds using
+#  the diamonds.lm regression model
+predict(object = diamonds.lm,     # The regression model
+        newdata = diamonds.new)   # dataframe of new data
+
+
+```
+
+
+
+### Thank you
+
+
